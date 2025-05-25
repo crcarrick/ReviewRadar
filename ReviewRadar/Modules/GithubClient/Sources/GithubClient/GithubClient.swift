@@ -26,19 +26,7 @@ public struct GithubClient {
         ])
         
         let (data, _) = try await URLSession.shared.data(for: request)
-        
-        if let raw = String(data: data, encoding: .utf8) {
-            print(raw)
-        }
-        
         let decoded = try JSONDecoder().decode(GraphQLResponse<T>.self, from: data)
-        
-        if let errors = decoded.errors {
-            print("❌ GraphQL errors:")
-            for error in errors {
-                print("- \(error.message)")
-            }
-        }
         
         return decoded.data
     }
